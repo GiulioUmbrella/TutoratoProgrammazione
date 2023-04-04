@@ -5,3 +5,8 @@ Appunti e soluzioni degli esercizi proposti durante il tutorato del corso di Pro
 ## Contatti
 
 giulio.umbrella@studenti.unipd.it
+
+## Calendario
+
+## Suggerimenti
+
