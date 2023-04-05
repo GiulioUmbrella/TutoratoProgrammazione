@@ -39,6 +39,8 @@ Quindi possiamo la condizione di stop si realizza quando i >= j. In altre parole
 Possiamo formalizzare il problema con il seguente **pseudo codice**; un linguaggio ad alto livello che formalizza il problema nei suoi passaggi fondamentali.
 
 ```
+INPUT: array s di n elementi
+OUTPUT: array s con elementi in posizione nverita
 1. i <- 0
 2. j <- n-1
 3. while i < j
@@ -51,20 +53,144 @@ Le righe 1. e 2. rappresentano la nostra condizione iniziale; la riga 3. la cond
 
 ## Implementazione 
 
-Adesso ossiamo implementare la funzione:
+Adesso possiamo implementare la funzione:
 
 ```c 
-void reverse_line(char s[], int lim)
-{
+void reverse_line(char s[], int len){
+    
+    int i,j,tmp;
 
+    i = 0;
+    j = len - 1;
+
+    if(s[j] == '\n')
+        j--;
+    
+    while(i < j){
+        tmp = s[i];
+        s[i] = s[j];
+        s[j] = tmp;
+        i++;
+        j--;    
+    }
+
+    return 0;
 }
 ``` 
 
+Dato un array s, la funzione reverse_line realizza l'inverso *in place*, ossia modifica gli elementi dell'array di input senza creare un nuovo array.   
+
+Per eseguire lo scambio usiamo una variabile `tmp` per salvare il valore di `s[i]` prima di modificarlo.
+
+Notiamo che stiamo aggiungendo un controllo sull'ultimo char dell'array; ne rappresenta una nuova riga decrementiamo il valore di j per preservare la formattazione per riga.
 
 # Get line
 
+Ora possiamo preseguire con la funzione per ottenere la funzione per ottenere una singola riga di testo. Dobbiamo chiarire tre punti: 
+
+1. Come ottenere caratteri in input
+2. Capire quando inizia una nuova riga di testo
+3. Implementare una funzione per ottenere righe
+
+**NB** vedremo piu' avanti come dare un input al programma; per il momento supponiamo di avere un testo input formato da piu' righe. 
+
+## Caratteri in input
+
+Per ottenere dei caratteri dallo standard input, possiamo usare la funzione `getchar` che prende caratteri dallo standard input. Per l'operazione inversa invece usiamo `putchar`
+
+```c
+#include <stdio.h>
+int main()
+{
+    int c;
+
+    c = getchar();
+    while( c!= EOF){
+        putchar(c);
+        c = getchar();
+    }
+}
+
+```
+
+Notiamo che la condizione di permanenza del ciclo dipende dalla differenza con il valore `EOF`. Si tratta di un valore restituito da C quando arriva alla fine del file. Ricordiamo che un file di testo corrisponde ad un certo numero di caratteri salvati in memoria; quando ho scorso tutti i caratteri, C segnala la cosa restituendo `EOF`.
+
+Scriviamo una versione piu' compatta della funzione nel seguente modo:
+
+```c
+#include <stdio.h>
+int main()
+{
+    int c;
+
+    while( (c = getchar()) != EOF)
+        putchar(c);
+}
+
+```
+
+Con l'espressione `(c = getchar()) != EOF` eseguiamo **due** operazioni:
+
+1. Assegniamo il valore da getchar() in c
+2. Il valore assegnato a c viene confrontato con EOF
+
+**NB**: per salvare dei valori di tipo **char** utilizziamo una variabile di tipo **intero**; nei prossimi tutorati capiremo perche' questo tipo di operazioni e' lecito. 
+
+
+## Nuova riga
+
+Ora che sappiamo come ottenere caratteri dobbiamo capire come spezzare il flusso in input in righe Supponiamo di avere un file con il seguente testo formato da 4 righe.
+
+```
+ciao 
+sono un 
+testo di 
+4 righe
+```
+
+In realta' il testo viene salvato in **memoria** nel seguente modo:
+
+```
+ciao\nsono un\ntesto di\n4 righe
+```
+Ossia esiste un carattere speciale `\n` che rappresenta la nuova riga. 
+
+Quindi possiamo mettere insieme quanto visto fino ad esso per implementare la funzione. Scorriamo l'input con `getchar` e salviamo i caratteri in un array. Appena incontriamo un carattere di tipo `\n` interrompiamo la procedura. 
+
+## Implementazione
+
+```c
+int get_line(char s[], int lim){
+
+    int c, i;
+
+    i = 0;
+    while(i < lim -1){
+        c = getchar();
+
+        if(c == EOF){
+            break;
+        }
+        else if (c == '\n'){
+            s[i] = '\n';
+            i++;
+            break; 
+        } else {
+            s[i] = c;
+        }
+            i++;    
+    }
+
+    s[i] = '\0';
+    return i; 
+
+}
+```
 
 # Reverse text
+
+
+
 
 # Standard input
 
