@@ -46,14 +46,11 @@ int get_line(char s[], int lim){
 
 void reverse_line(char s[], int len){
     
-    // Dichiarazione variabili
     int i,j,tmp;
 
-    // Inizializzo variabili
     i = 0;
     j = len - 1;
 
-    // Non includere nuova riga
     if(s[j] == '\n')
         j--;
     
@@ -65,6 +62,7 @@ void reverse_line(char s[], int len){
         j--;    
     }
 
+    return 0;
 }
 
 
