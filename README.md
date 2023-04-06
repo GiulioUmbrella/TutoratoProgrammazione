@@ -16,6 +16,12 @@ giulio.umbrella@studenti.unipd.it
 |      4     |  20 Aprile | 1230 1430 |   1BC45  |
 |      5     |  27 Aprile | 1230 1430 |   1BC45  |
 
+## Compilazione
+
+I commenti delle soluzioni sono disponibili in formato pdf.  
+
+Sono disponibili anche i file sorgenti scritti in markdown. Per ottenere un .pdf utilizzare il seguente comando `pandoc nome_file.md -o nome_file.pdf`. 
+
 ## Suggerimenti
 
 I seguenti link sono suggerimenti utili per approfondire alcuni argomenti e **non** rappresentano i materiali di studio ufficiali del corso.
