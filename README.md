@@ -18,4 +18,7 @@ giulio.umbrella@studenti.unipd.it
 
 ## Suggerimenti
 
+I seguenti link sono suggerimenti utili per approfondire alcuni argomenti e **non** rappresentano i materiali di studio ufficiali del corso.
 
+1. Learn Linux in a Month of Lunches  [link](https://www.manning.com/books/learn-linux-in-a-month-of-lunches): per iniziare ad approcciare il mondo linux
+2. Learn Git in a Month of Lunches [link](https://www.manning.com/books/learn-git-in-a-month-of-lunches): per iniziare a fare pratica con il versionamento del codice
