@@ -2,6 +2,11 @@
 title: Tutorato 01 Programmazione
 author: Giulio Umbrella
 geometry: margin=2cm
+toc: true
+numbersections: true
+output:
+  pdf_document:
+    highlight: zenburn 
 ---
 
 # Reverse
@@ -110,7 +115,6 @@ int main()
         c = getchar();
     }
 }
-
 ```
 
 Notiamo che la condizione di permanenza del ciclo dipende dalla differenza con il valore `EOF`. Si tratta di un valore restituito da C quando arriva alla fine del file. Ricordiamo che un file di testo corrisponde ad un certo numero di caratteri salvati in memoria; quando ho scorso tutti i caratteri, C segnala la cosa restituendo `EOF`.
@@ -159,6 +163,14 @@ Quindi possiamo mettere insieme quanto visto fino ad esso per implementare la fu
 
 ## Implementazione
 
+La funzione get_line ha due parametri in input:
+- Un array di char - ossia un puntatore
+- Un intero che rappresenta il massimo numero di caratteri 
+
+La funzione ha il seguente comporatamento:
+- modifica l'array in input aggiungendo caratteri
+- restituisce la lunghezza della linea
+
 ```c
 int get_line(char s[], int lim){
 
@@ -187,15 +199,73 @@ int get_line(char s[], int lim){
 }
 ```
 
+La funzione quindi scorre l'input e continua a salvare i valori all'interno del array di char. Ricordiamoci che un array di char ha come ultimo elemento il null byte `\0`, che inseriamo come ultima operazione. 
+
+Inizialmente possiamo pensare a due casi:
+1. La riga in input e' piu' grande dell'array di char
+2. La riga in input e' minore o uguale dell'array di char
+
+Nel primo caso, continuiamo ad inserire valori fino a quando il valore di *i* non raggiunge *lim* e inseriamo il null byte alla fine. 
+
+Nel secondo caso invece la condizione di uscita e' determinata dal corpo del ciclo while. Abbiamo quindi due casi per l'uscita.
+
+1. Raggiungiamo una nuova riga
+2. Raggiungiamo `EOF` 
+
+Se ragginguiamo una nuova riga dobbiamo ricordardi di incrementare il valore di *i* e assegnare manualmente il valore di *s[i]*.
+
+
 # Reverse text
 
+Ora possiamo combiare le due funzione e ottere il programma per la reverse del testo.
 
+```c
+#include <stdio.h>
+#define MAXLINE 1000
 
+int main()
+{
+    int len;
+    char line[MAXLINE];
+    
+    while( (len = get_line(line, MAXLINE)) > 0){
+        reverse_line(line, len);
+        printf("%s",line);
+    }
+    
+    return 0;
+}   
+```
+
+La funzione e' implementata nel seguente modo:
+
+1. La funzione `get_line` inserisce caratteri dallo standard input e restituisce la lunghezza nella variabile len.
+2. Il valore len viene controllato, se maggiore di zero vuol dire che ci sono caratteri nella riga.
+3. La riga viene invertita e stampata
+4. Il while riprende
+
+Possiamo sottolineare che lo standard input viene consumtato in blocchi diversi. Se prendiamo il testo
+
+```bash
+ciao\nsono un\ntesto di\n4 righe
+```
+
+Nella prima iterazione, la funzione `get_line` prende la porzione di array `ciao\n` e poi passa l'esecuzione al corpo del ciclo while. Nella seguente interzione `get_line` ripartira' a partire dal sesto carattere. 
 
 # Standard input
+
+Per fornire un input al programma possiamo usare la funzione di *input redirection* fornita dalla shell.
+
+```bash
+gcc -o reverse_text reverse_text.c
+./reverse_text < myinput.txt
+```
+
+In questo modo forniamo come input al programma il contenuto di myinput, senza doverlo inserire manualmente.
+
 
 # Esercizi aggiuntivi
 
 1. Scrivere una funzione line_count che dato un file di testo conta il numero di righe
 2. Scrivere una funzione line_length che data una stringa di testo conta il numero di caratteri
-3. 
+3. Scrivere un programma che stampa il valore di `EOF`
