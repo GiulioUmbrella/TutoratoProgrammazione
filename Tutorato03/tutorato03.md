@@ -189,7 +189,12 @@ char s[] = {'c','i','a','o','\0','m','o','n','d','o','\0'};
 
 # Alloc
 
-Adesso possiamo scrivere una struttura dati per gestire le stringhe.
+Adesso possiamo scrivere una struttura dati per gestire le stringhe. Per farlo utilizziamo l'aritmetica dei puntatori. Sappiamo che valgono le seguenti proprieta'
+
+1. I puntatori possono essere incrementati o diminuti con valori interi
+2. I puntatori possono essere confrontati
+3. I puntatori possono essere sotratti 
+
 
 ```c
 #define ALLOCSIZE 10000                          /* total storage*/
@@ -216,6 +221,18 @@ Creiamo un array `allocbuf` per contenere i valori e un puntatore `allocp` per p
 L'array allocbuf puo' essere diviso in **due** parti: gli indirizzi disponibile e quelli utilizzati.
 
 Il puntatore allocp punta sempre all'inizio della zona di memoria libera. Notare che all'inizio punta al primo indirizzo di allocbuf, dato che tutto l'array e' a disposizione. 
+
+Per verificare se il buffer ha abbastanza memoria a disposizione eseguiamo il seguente controllo:
+
+```c
+allocbuf + ALLOCSIZE - allocp >= n
+```
+
+La variabile allocbuf e' in indirizzo fisso in memoria e rappresenta il punto inziale del buffer. Se sommiamo la constante ALLOCSIZE otteniamo l'ultimo indirizzo a disposizione. Sottraendo il valore allocp - il puntatore alla zona di memoria libera - otteniamo la quantita' di memoria disponibile. Confrontiamo questo valore con il numero di byte richiesti per sapere se e' presente abbastanza memoria. 
+
+La gestione del puntatore allocp e' semplice. Se la memoria e' sufficiente, il valore allocp viene incrementato per riservare la memoria. Il valore restituito e' il primo indirizzo disponibile ottenuto tramite differenza di valori.
+
+Se non vi e' abbastanza memoria viene restituito il valore 0; per convenzione questo indirizzo **non** e' mai valido dato che e' usato solo dal sistema operativo.
 
 La funzione `allocp` **non** gestisce dati; dato un valore in input verifica se il buffer ha abbastanza memoria al suo interno. Se disponibile sposta il puntatore di un numero di indirizzi equivalente e restituisce l'indirizzo del primo elemento "prenotato" per l'utilizzo. 
 
