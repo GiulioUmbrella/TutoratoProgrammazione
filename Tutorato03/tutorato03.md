@@ -21,7 +21,7 @@ Bau
 
 Le tre stringhe vengono salvate in memoria in questo modo:
 ```
-Ciao\0Miao\0Bau
+Ciao\0Miao\0Bau\0
 ```
 
 Per accedere alle stringhe abbiamo un array di puntatori `[p1,p2,p3]` organizzati in questo modo
@@ -94,15 +94,19 @@ Possiamo partire dalle seguenti considerazioni:
 - L'array *i* e' composto da 2 interi, ciascuno dei quali e' composto da 4 byte, per un totale di 8 byte
 - Un numero intero e' in realta' un insieme di 0 e 1
 - I char occupano un byte in memoria
+- I char sono condificati in ASCII
 
-Per prima cosa vediamo come sono sono i valori in binario dei due numeri 
-- 1819633991 = 01101100011101010110100101000111
-- 28521 = 110111101101001
+
+Per prima cosa vediamo come sono sono i valori in binario dei due numeri  
+
+- `1819633991 = 01101100011101010110100101000111`
+- `28521 = 110111101101001`
 
 Ciascun indirizzo punta ad un byte, quindi per sempliticita' spachettiamo tutti i byte in una tabella:
 
+
 | **Address** | **Byte** | **Hex** | **Ascii** |
-|-------------|----------|---------|-----------|
+|:-----------:|:--------:|:-------:|:---------:|
 |      s      | 01000111 |    47   |     G     |
 |     s+1     | 01000111 |    69   |     i     |
 |     s+2     | 01110101 |    75   |     u     |
@@ -113,6 +117,10 @@ Ciascun indirizzo punta ad un byte, quindi per sempliticita' spachettiamo tutti 
 |     s+7     | 00000000 |    00   |    Null   |
 
 Ora abbiamo un quadro completo
+
+- I primi 4 valori rappresentano il primo intero
+- I secondi 4 valori invece sono il secondo intero
+- Nel secondo interno usiamo solo due byte, quindi il resto e' zero - quindi abbiamo un null byte
 
 Abbiamo visto come interpretare i valori in memoria. Come possiamo fare il processo inverso? Ossia a partire da un array di caratteri come otteniamo l'equivalente valore intero. Prendiamo come esempio il seguente programma:
 
@@ -239,6 +247,42 @@ La funzione `allocp` **non** gestisce dati; dato un valore in input verifica se 
 
 # Read line
 
-Abbiamo a disposizioe uno spazio dove salvare valori. Ora dobbiamo riempirlo.
+Abbiamo a disposizione uno spazio dove salvare valori. Ora dobbiamo riempirlo con valori delle righe di testo.
 
+Per prima cosa scriamo una funzione per copiare valori fra due array di stringhe.
+
+```c
+/* strcpy: copy t to s;*/
+void str_cpy(char *dst, char *src)
+{
+    while(( *dst++ = *src++) != '\0')
+        ;
+}
+```
+
+Adesso possiamo copiare l'input in memoria
+
+1. Usiamo la funzione `get_line` sviluppata nel tutorato 01
+2. Allochiamo uno spazio di memoria con `alloc`
+3. Copiamo la stringa in memoria con `str_cpy`
+
+```c
+int read_lines(char *lines_ptr[], int maxlines)
+{
+    int len, nlines;
+    char *p, line[MAXLEN];
+
+    while( (len = get_line(line, MAXLEN)) > 0)               /* carry on until you have line*/
+        if(nlines >= maxlines || (p = alloc(len)) == NULL  ) /* check memory and max lines number*/
+            return -1;                                       /* signal an error */
+        else {
+            line[len - 1] = '\0';                            /* replace new line with end of string */ 
+            str_cpy(p, line);                                 /* copy string in buffer */  
+            lines_ptr[nlines++] = p;                         /* get pointer */
+        }
+        
+    return nlines;
+
+}
+```
 
