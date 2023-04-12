@@ -1,5 +1,5 @@
 ---
-title: Tutorato 01 Programmazione
+title: Tutorato 03 Programmazione
 author: Giulio Umbrella
 geometry: margin=2cm
 toc: true
@@ -11,11 +11,49 @@ output:
 
 # Sort
 
-Lo scopo di questo programma e' costruire un programma sort per ordine in modo lessicografico un testo in input. Per farlo sviluppiamo i seguenti punti:
+Lo scopo di questo programma e' costruire un programma sort per ordine in modo *lessicografico* un testo in input. Supponiamo di avere questo testo:
+
+```
+Ciao
+Miao
+Bau
+```
+
+Le tre stringhe vengono salvate in memoria in questo modo:
+```
+Ciao\0Miao\0Bau
+```
+
+Per accedere alle stringhe abbiamo un array di puntatori `[p1,p2,p3]` organizzati in questo modo
+
+```
+p1 -> Ciao
+p2 -> Miao
+p3 -> Bau
+```
+
+Per ordinare le stringhe possiamo riscrivere tutti gli elementi in memoria. Ma l'approccio piu' conveniente e' modificare i **puntatori** anziche' la memoria. 
+
+```
+p1 -> Bau
+p2 -> Ciao
+p3 -> Miao
+```
+
+In questo modo possiamo accedere agli elementi in modo ordinato senza dover riscrivere la memoria. 
+
+Il programma funziona in questo modo:
+
+1. Dato un testo in input, salva tutte le righe come stringhe in un unico array di char. 
+2. Per ciascuna stringa, conserviamo un puntatore al primo elemento 
+3. Una volta che le stringhe sono in memoria mettiamo in ordine i puntatori anziche;
+
+Per farlo sviluppiamo i seguenti punti:
 
 1. **Gestione memoria**: un esempio di come gestire la memoria
 2. **Funzione alloc**: struttura dati elementare per conservare stringhe di lunghezza diversa
-3. **Funzione sort**:  ordiniamo le stringhe del punto precedente tramite puntatori a puntatori
+3. **Funzione read_line**: copia le stringhe in memoria
+4. **Funzione sort_line**:  ordiniamo le stringhe del punto precedente tramite i puntatori
 
 # Gestione memoria
 
@@ -146,6 +184,24 @@ int main()
 
 # Alloc
 
-Adesso possiamo scrivere una struttura dati simili
+Adesso possiamo scrivere una struttura dati per 
 
-# Grep
+```c
+#define ALLOCSIZE 10000                          /* total storage*/
+
+static char allocbuf[ALLOCSIZE];                 /* set aside memory */
+static char *allocp = allocbuf;                  /* intial pointer */
+
+/* prepare a space for n byte and return pointer to the region*/
+char *alloc(int n)
+{
+    if (allocbuf + ALLOCSIZE - allocp >= n){     /* check room */
+        allocp += n;                             /* update pointer*/
+        return allocp - n;                       /* return pointer to data*/ 
+    }
+    else                                         /* not enough room */
+        return 0;
+    
+
+}
+```
