@@ -182,9 +182,14 @@ int main()
 }
 ```
 
+Possiamo dare una equivalente rappresentazione tramite un array di char.
+```c
+char s[] = {'c','i','a','o','\0','m','o','n','d','o','\0'};
+```
+
 # Alloc
 
-Adesso possiamo scrivere una struttura dati per 
+Adesso possiamo scrivere una struttura dati per gestire le stringhe.
 
 ```c
 #define ALLOCSIZE 10000                          /* total storage*/
@@ -205,3 +210,18 @@ char *alloc(int n)
 
 }
 ```
+
+Creiamo un array `allocbuf` per contenere i valori e un puntatore `allocp` per poterci accedere. 
+
+L'array allocbuf puo' essere diviso in **due** parti: gli indirizzi disponibile e quelli utilizzati.
+
+Il puntatore allocp punta sempre all'inizio della zona di memoria libera. Notare che all'inizio punta al primo indirizzo di allocbuf, dato che tutto l'array e' a disposizione. 
+
+La funzione `allocp` **non** gestisce dati; dato un valore in input verifica se il buffer ha abbastanza memoria al suo interno. Se disponibile sposta il puntatore di un numero di indirizzi equivalente e restituisce l'indirizzo del primo elemento "prenotato" per l'utilizzo. 
+
+
+# Read line
+
+Abbiamo a disposizioe uno spazio dove salvare valori. Ora dobbiamo riempirlo.
+
+
