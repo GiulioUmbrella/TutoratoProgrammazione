@@ -14,6 +14,7 @@ void afree(char *p);
 void str_cpy(char *s, char *t);
 void sort_lines(char *v[], int left, int right);
 void swap(char *v[],int i, int j);
+int  str_cmp(char s[], char t[]);
 
 int main()
 {
@@ -38,7 +39,7 @@ void sort_lines(char *v[], int left, int right)
     swap(v, left, (left+right)/2);
     last = left;
     for(i = left+1; i <= right; i++)
-        if(strcmp(v[i], v[left]) <0 )
+        if(str_cmp(v[i], v[left]) <0 )
             swap(v,++last,i);
     swap(v, left, last);
     sort_lines(v,left, last-1);
@@ -54,6 +55,23 @@ void swap(char *v[],int i, int j)
     v[i] = v[j];
     v[j] = temp;
 }
+
+/* compare two string*/
+int str_cmp(char s[], char t[])
+{    
+    int i;
+    
+    i = 0;
+    while(s[i] == t[i] && s[i] != '\0'){
+        if( s[i] == '\0')
+            break;
+        i++;
+    }
+    
+    return s[i] == '\0' ? 0 : s[i] - t[i]; 
+
+}
+
 
 /* readlines */
 #define MAXLEN 1000                              /* Max length of any input line*/
