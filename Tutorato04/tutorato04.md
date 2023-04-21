@@ -46,7 +46,9 @@ La chiamata ricorsiva ha due solitamente tre passi
 La dimostrazione per induzione e' divisa in **due** parti distinte
 
 1. **Caso base**: Dimostrare che il caso base e' giusto
-2. **Passo induttivo**: assumere che una instanza del sottoproblema e' giusto e dimostare che puo' essere usata per 
+2. **Passo induttivo**: assumere che una instanza del sottoproblema e' giusto e dimostare che puo' essere usata per risolvere il problema.
+
+Informalmente, possiamo pensare alla chiamata ricorsiva come ad una "scatola magica" che risolve il sottoproblema. Ovviamente dobbiamo capire il giusto input da fornire e come utilizzare l'output che viene fornito. 
 
 # Esempio 
 
@@ -152,7 +154,7 @@ Quindi se sommiammo r con somma_cifre_rec(q) otteniamo il valore corretto.
 
 *Esempio* prendiamo il valore di input 1987 e scriviamo come 1987 = 198 * 10 + 7. La funzione somma_cifre_rec(198) restituisce il corretto valore per ipotesi induttiva e otteniamo 18. Aggiungiamo il valore 7 e otteniamo 25. 
 
-# Esercizio 
+# Esercizio stampa base 2
 
 Scrivere un programma ricorsivo che dato in input un intero n stampa tutte i valori in base 2 compresi fra 0 e n - 1. Ad esempio se n = 2, stampa
 
@@ -223,11 +225,10 @@ void print_bin_rec(char s[], int k)
 
 ```
 
-## Dimostrazione
-
 # Esercizi aggiuntivi
 
-1. Scrivere un programma simile all'esercizio 3 che stampi i valori in formato *big endian**. Ad esempio con k = 2 deve stampare:
+1. Scrivere la prova induttiva dell'esercizio stampa base 2
+2. Scrivere un programma simile all'esercizio stampa base 2 che stampi i valori in formato *big endian**. Ad esempio con k = 2 deve stampare:
 
 ```
 11
@@ -238,4 +239,4 @@ void print_bin_rec(char s[], int k)
 
 I bit piu' significativi appaiono sulla sinistra.
 
-2. Scrivere un programma analogo all'esercizio 3 che funzioni in base 16. 
+3. Scrivere un programma analogo all'esercizio stampa base 2 che funzioni in base 16. 
